@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Una pregunta importante</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="invite" aria-labelledby="main-title">
+        <img class="puppy" src="assets/perrito-rosas.png" alt="Perrito con un ramo de rosas rojas" />
+
+        <div id="question-panel" class="panel">
+          <p class="eyebrow">Tengo una pregunta seria...</p>
+          <h1 id="main-title">¿Quieres salir?</h1>
+
+          <div class="actions" aria-label="Opciones de respuesta">
+            <button id="yes-btn" class="btn yes" type="button">Sí</button>
+            <button id="no-btn" class="btn no" type="button">No</button>
+          </div>
+        </div>
+
+        <form id="date-form" class="panel date-form" hidden>
+          <p class="eyebrow">Sabía que ibas a decir que sí</p>
+          <h2>Elige el plan</h2>
+
+          <div class="field fixed-date">
+            <span>Fecha para salir</span>
+            <strong>Miércoles 15 de julio, 6:00 p. m.</strong>
+            <input name="date" type="hidden" value="Miércoles 15 de julio, 6:00 p. m." />
+          </div>
+
+          <fieldset class="plans">
+            <legend>¿Qué se te antoja?</legend>
+            <label><input type="radio" name="plan" value="Carne" required /> Carne</label>
+            <label><input type="radio" name="plan" value="Comida de mar" /> Comida de mar</label>
+            <label><input type="radio" name="plan" value="Comida mexicana" /> Comida mexicana</label>
+            <label><input type="radio" name="plan" value="Hamburguesas" /> Hamburguesas</label>
+            <label><input type="radio" name="plan" value="Cocteles" /> Cocteles</label>
+            <label><input type="radio" name="plan" value="Beber y bailar" /> Beber y bailar</label>
+            <label><input type="radio" name="plan" value="Sushi" /> Sushi</label>
+            <label><input type="radio" name="plan" value="Salida misteriosa ???" /> Salida misteriosa ???</label>
+          </fieldset>
+
+          <button class="btn yes submit" type="submit">Confirmar cita</button>
+          <p id="result" class="result" role="status" aria-live="polite"></p>
+        </form>
+
+        <audio id="song" src="Vicente Fernández - Estos Celos (Letra Lyrics).mp3" preload="auto" controls loop></audio>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
