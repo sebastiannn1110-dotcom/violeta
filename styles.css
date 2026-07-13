@@ -85,12 +85,16 @@ h2 {
 }
 
 .actions {
-  min-height: 76px;
+  width: 100%;
+  min-height: 118px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
   margin-top: 28px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .btn {
@@ -122,12 +126,8 @@ h2 {
 }
 
 .no.is-running {
-  position: fixed;
-  transition:
-    left 230ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    top 230ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 230ms ease;
-  will-change: left, top, transform;
+  transition: transform 230ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 .date-form {
