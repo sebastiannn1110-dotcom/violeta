@@ -28,8 +28,30 @@ function keepInsideBox(value, min, max) {
   return Math.min(Math.max(value, min), Math.max(min, max));
 }
 
-function moveNoButton(event) {
+function getMoveBounds() {
   const rect = noBtn.getBoundingClientRect();
+  const boxRect = actionsBox.getBoundingClientRect();
+  const boxCenterX = boxRect.left + boxRect.width / 2;
+  const boxCenterY = boxRect.top + boxRect.height / 2;
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const naturalOffsetX = centerX - noButtonState.x - boxCenterX;
+  const naturalOffsetY = centerY - noButtonState.y - boxCenterY;
+
+  return {
+    rect,
+    maxOffsetX: Math.max(0, boxRect.width / 2 - rect.width / 2 - Math.abs(naturalOffsetX) - 10),
+    maxOffsetY: Math.max(0, boxRect.height / 2 - rect.height / 2 - Math.abs(naturalOffsetY) - 10),
+  };
+}
+
+function applyNoButtonPosition() {
+  noBtn.classList.add("is-running");
+  noBtn.style.transform = `translate(${noButtonState.x}px, ${noButtonState.y}px) rotate(-2deg)`;
+}
+
+function moveNoButton(event) {
+  const { rect, maxOffsetX, maxOffsetY } = getMoveBounds();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
   const pointerX = event.clientX;
@@ -47,26 +69,38 @@ function moveNoButton(event) {
   const safeDistance = Math.max(distance, 1);
   const push = 42;
   const drift = 8;
-  const boxRect = actionsBox.getBoundingClientRect();
-  const boxCenterX = boxRect.left + boxRect.width / 2;
-  const boxCenterY = boxRect.top + boxRect.height / 2;
-  const naturalOffsetX = centerX - noButtonState.x - boxCenterX;
-  const naturalOffsetY = centerY - noButtonState.y - boxCenterY;
-  const maxOffsetX = Math.max(0, boxRect.width / 2 - rect.width / 2 - Math.abs(naturalOffsetX) - 10);
-  const maxOffsetY = Math.max(0, boxRect.height / 2 - rect.height / 2 - Math.abs(naturalOffsetY) - 10);
 
   noButtonState.x += (distanceX / safeDistance) * push + (Math.random() * drift - drift / 2);
   noButtonState.y += (distanceY / safeDistance) * push + (Math.random() * drift - drift / 2);
   noButtonState.x = keepInsideBox(noButtonState.x, -maxOffsetX, maxOffsetX);
   noButtonState.y = keepInsideBox(noButtonState.y, -maxOffsetY, maxOffsetY);
 
-  noBtn.classList.add("is-running");
-  noBtn.style.transform = `translate(${noButtonState.x}px, ${noButtonState.y}px) rotate(-2deg)`;
+  applyNoButtonPosition();
+}
+
+function jumpNoButtonOnTap(event) {
+  event.preventDefault();
+  const { maxOffsetX, maxOffsetY } = getMoveBounds();
+  const minJump = 34;
+  let nextX = noButtonState.x;
+  let nextY = noButtonState.y;
+
+  if (maxOffsetX > minJump) {
+    nextX = Math.random() > 0.5 ? maxOffsetX : -maxOffsetX;
+  }
+
+  if (maxOffsetY > minJump) {
+    nextY = Math.random() > 0.5 ? maxOffsetY : -maxOffsetY;
+  }
+
+  noButtonState.x = nextX;
+  noButtonState.y = nextY;
+  applyNoButtonPosition();
 }
 
 function blockNoClick(event) {
   event.preventDefault();
-  moveNoButton(event);
+  jumpNoButtonOnTap(event);
 }
 
 yesBtn.addEventListener("click", showForm);

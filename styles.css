@@ -231,9 +231,21 @@ audio {
 
   .actions {
     display: grid;
+    min-height: 190px;
+    justify-items: center;
+    align-content: center;
+    gap: 18px;
   }
 
-  .btn {
+  .yes,
+  .submit {
     width: 100%;
+  }
+
+  .no {
+    width: auto;
+    min-width: 118px;
+    justify-self: center;
+    touch-action: manipulation;
   }
 }
